@@ -19,8 +19,17 @@ function App() {
   const generateDescription = (title: string): string => {
     const titleLower = title.toLowerCase();
     
+    // Limpeza e Casa
+    if (titleLower.includes('escova') && titleLower.includes('limpeza')) {
+      return '🧹 ✨ Limpeza prática e eficiente para sua casa! 🏠 💫';
+    } else if (titleLower.includes('aspirador')) {
+      return '🧹 ✨ Mantenha sua casa sempre limpa! 🏠 ⚡';
+    } else if (titleLower.includes('limpador') || titleLower.includes('multiuso')) {
+      return '🧹 ✨ Praticidade na limpeza do seu dia a dia! 🏠 💫';
+    }
+    
     // Roupas
-    if (titleLower.includes('cropped')) {
+    else if (titleLower.includes('cropped')) {
       return '👗 👚 Renove seu guarda-roupa com estilo e economia! ✨ 💃';
     } else if (titleLower.includes('vestido')) {
       return '👗 ✨ Look perfeito para arrasar em qualquer ocasião! 💫 💃';
@@ -71,23 +80,45 @@ function App() {
 
   const formatText = (text: string) => {
     try {
-      // Extract product information using regex
-      const priceRegex = /R\$\s*(\d+[.,]\d{2})\s*-\s*R\$\s*(\d+[.,]\d{2})/;
+      // Novo padrão de regex para capturar diferentes formatos
+      const priceRegex1 = /R\$\s*(\d+[.,]\d{2})\s*-\s*R\$\s*(\d+[.,]\d{2})/;
+      const priceRegex2 = /por\s*R\$\s*(\d+[.,]\d{2})/i;
       const linkRegex = /(https:\/\/[^\s]+)/;
-      const titleRegex = /em\s+(.*?)\s+por\s+R\$/;
+      const titleRegex1 = /em\s+(.*?)\s+por\s+R\$/;
+      const titleRegex2 = /Dê uma olhada em\s+(.*?)\s+por\s+R\$/;
 
-      const priceMatch = text.match(priceRegex);
       const linkMatch = text.match(linkRegex);
-      const titleMatch = text.match(titleRegex);
+      let title = '';
+      let lowerPrice = '';
+      let originalPrice = '';
 
-      if (!priceMatch || !linkMatch || !titleMatch) {
-        return 'Formato de texto inválido. Certifique-se de incluir título, preços e link.';
+      // Tenta encontrar o título usando os diferentes padrões
+      const titleMatch1 = text.match(titleRegex1);
+      const titleMatch2 = text.match(titleRegex2);
+      if (titleMatch1) {
+        title = titleMatch1[1].trim();
+      } else if (titleMatch2) {
+        title = titleMatch2[1].trim();
       }
 
-      const lowerPrice = priceMatch[1];
-      const originalPrice = priceMatch[2];
+      // Tenta encontrar os preços usando os diferentes padrões
+      const priceMatch1 = text.match(priceRegex1);
+      const priceMatch2 = text.match(priceRegex2);
+      if (priceMatch1) {
+        lowerPrice = priceMatch1[1];
+        originalPrice = priceMatch1[2];
+      } else if (priceMatch2) {
+        lowerPrice = priceMatch2[1];
+        // Se não houver preço original, aumentamos em 30% para criar um desconto
+        const price = parseFloat(lowerPrice.replace(',', '.'));
+        originalPrice = (price * 1.3).toFixed(2).replace('.', ',');
+      }
+
+      if (!title || !lowerPrice || !linkMatch) {
+        return 'Formato de texto inválido. Certifique-se de incluir título, preço e link.';
+      }
+
       const cleanedLink = cleanShopeeLink(linkMatch[0]);
-      const title = titleMatch[1].trim();
       const description = generateDescription(title);
 
       const formattedMessage = `🛍️ ${title}
