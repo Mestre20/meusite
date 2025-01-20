@@ -17,14 +17,56 @@ function App() {
   };
 
   const generateDescription = (title: string): string => {
-    if (title.toLowerCase().includes('cropped')) {
-      return '👗 Renove seu guarda-roupa com estilo e economia!';
-    } else if (title.toLowerCase().includes('kit') && title.toLowerCase().includes('corporal')) {
-      return '🛁 Cuide da sua pele com produtos especiais!';
-    } else if (title.toLowerCase().includes('kit')) {
-      return '✨ Aproveite este kit incrível por um preço especial!';
+    const titleLower = title.toLowerCase();
+    
+    // Roupas
+    if (titleLower.includes('cropped')) {
+      return '👗 👚 Renove seu guarda-roupa com estilo e economia! ✨ 💃';
+    } else if (titleLower.includes('vestido')) {
+      return '👗 ✨ Look perfeito para arrasar em qualquer ocasião! 💫 💃';
+    } else if (titleLower.includes('calça') || titleLower.includes('calca')) {
+      return '👖 ✨ Conforto e estilo em uma peça só! 🔝 💯';
+    } else if (titleLower.includes('conjunto')) {
+      return '👚 👖 Look completo por um preço incrível! ✨ 💯';
     }
-    return '🌟 Aproveite esta oferta especial!';
+    
+    // Cosméticos e Cuidados
+    else if (titleLower.includes('kit') && titleLower.includes('corporal')) {
+      return '🛁 ✨ Cuide da sua pele com produtos especiais! 💆‍♀️ 🧴';
+    } else if (titleLower.includes('perfume')) {
+      return '🌸 ✨ Fragrância irresistível para seu dia! 💫 💝';
+    } else if (titleLower.includes('maquiagem')) {
+      return '💄 ✨ Realce sua beleza natural! 💋 ⭐';
+    }
+    
+    // Acessórios
+    else if (titleLower.includes('bolsa')) {
+      return '👜 ✨ Estilo e praticidade em um só produto! 💫 🎀';
+    } else if (titleLower.includes('colar') || titleLower.includes('brinco')) {
+      return '💎 ✨ Brilhe com esse acessório incrível! 💫 💝';
+    } else if (titleLower.includes('relógio') || titleLower.includes('relogio')) {
+      return '⌚ ✨ Pontualidade com estilo! 💫 🔝';
+    }
+    
+    // Eletrônicos
+    else if (titleLower.includes('celular') || titleLower.includes('smartphone')) {
+      return '📱 ✨ Tecnologia de ponta em suas mãos! 🔝 💫';
+    } else if (titleLower.includes('fone')) {
+      return '🎧 ✨ Qualidade sonora excepcional! 🎵 💯';
+    }
+    
+    // Kits e Conjuntos Gerais
+    else if (titleLower.includes('kit')) {
+      return '✨ 🎁 Aproveite este kit incrível por um preço especial! 💫 💝';
+    }
+    
+    // Casa e Decoração
+    else if (titleLower.includes('casa') || titleLower.includes('decoração') || titleLower.includes('decoracao')) {
+      return '🏠 ✨ Deixe sua casa ainda mais linda! 🎀 💝';
+    }
+    
+    // Padrão para outros produtos
+    return '🌟 ✨ Aproveite esta oferta especial! 💫 🔝';
   };
 
   const formatText = (text: string) => {
@@ -58,7 +100,7 @@ ${description}
 Compre aqui:
 ${cleanedLink}
 
-❗Essa oferta pode acabar a qualquer momento`;
+❗Essa oferta pode acabar a qualquer momento ⚡`;
 
       return formattedMessage;
     } catch (error) {
