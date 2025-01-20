@@ -182,6 +182,12 @@ ${cleanedLink}
             </div>
           </div>
         </div>
+
+        <div className="text-center mt-8">
+          <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-purple-100 text-purple-800">
+            Versão BETA 1.0.0
+          </span>
+        </div>
       </div>
     </div>
   );
